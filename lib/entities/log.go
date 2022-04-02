@@ -1,7 +1,9 @@
 package entities
 
 import (
+	ex "clean-architeture/lib/entities/errors"
 	"clean-architeture/lib/entities/validators"
+	"clean-architeture/lib/ports/usecases"
 	"encoding/json"
 	"time"
 )
@@ -16,14 +18,14 @@ type Log struct {
 	UpdatedAt   time.Time   `json:"updatedAt"`
 }
 
-func Create(data []byte) (*Log, []string) {
+func Create(data []byte) (*Log, *usecases.Error) {
 	var l *Log
 	_ = json.Unmarshal(data, &l)
 	err := l.isValid()
-	return l, err
+	return l, &err
 }
 
-func (l *Log) isValid() []string {
+func (l *Log) isValid() usecases.Error {
 	var errors []string
 	validator := validators.Validator{}
 	if l.Type == "" {
@@ -47,5 +49,5 @@ func (l *Log) isValid() []string {
 		errors = append(errors, "version parameter must be of type decimal")
 	}
 
-	return errors
+	return ex.GenerateError("BAD_REQUEST", 400, "BAD REQUEST", errors[0])
 }

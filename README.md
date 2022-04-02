@@ -8,6 +8,7 @@ To run the project, run the following command
 
 ```bash
   protoc --proto_path=proto proto/*.proto --go-grpc_out=. --go-grpc_out=lib/entities
+  mockgen -destination=test/ports/add-log-repository.go -source=lib/ports/repositories/add-log-repository.go
 ```
 
 ## Documentation structure folder

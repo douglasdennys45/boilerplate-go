@@ -7,6 +7,6 @@ type Error struct {
 	Detail string `json:"detail"`
 }
 
-func GenerateError(code string, status int, title string, detail string) Error {
-	return Error{code, status, title, detail}
+func GenerateError(code string, status int, title string, detail string) *Error {
+	return &Error{code, status, title, detail}
 }
